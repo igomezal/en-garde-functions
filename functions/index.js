@@ -20,11 +20,19 @@ exports.notifyAvailabilityChanged = functions.https.onCall(async (data, context)
       const usersToBeNotifiedToken = usersToBeNotifiedData.docs.map(user => user.data().notificationToken);
 
       const message = {
+        data: {
+            timestamp: Date.now().toString(),
+        },
         notification: {
           title: `${user.displayName} ${data.available ? 'is' : 'is not'} available`,
           body: `${user.displayName} who is with you in the on-duty call ${data.available ? 'is' : 'is not'} available ${data.available ? 'again' : 'now'}`,
         },
         tokens: usersToBeNotifiedToken,
+        webpush: {
+            fcmOptions: {
+                link: 'https://en-garde-1b8c5.web.app/#/notifications',
+            },
+        }
       };
     
       try {

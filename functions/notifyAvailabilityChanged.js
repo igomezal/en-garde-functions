@@ -42,6 +42,7 @@ module.exports = functions.https.onCall(async (data, context) => {
             }
         }
     } catch(error) {
+        functions.logger.error('notifyAvailabilityChanged notification not sent', error);
         return { status: 'error', code: 500, message: 'There was an error getting the notification'};
     }
 
